@@ -1,5 +1,5 @@
 from mcp.server.fastmcp import FastMCP
-from client import get_projects,get_issue
+from client import get_projects,get_issue, add_comment_to_issue
 
 
 mcp = FastMCP("jira-mcp")
@@ -30,6 +30,12 @@ def jira_issue(issue_key: str) -> dict:
     """
     return get_issue(issue_key)
 
+@mcp.tool()
+def write_comment_to_issue(comment: str, issue_key: str) -> dict:
+    """
+    Add a comment to a Jira issue.
+    """
+    return add_comment_to_issue(comment, issue_key)
 
 if __name__ == "__main__":
     mcp.run()
