@@ -1,6 +1,9 @@
 # xray_client.py
 import requests
 from typing import List, Dict
+import csv
+import os
+from datetime import datetime
 
 class XrayClient:
     def __init__(self, client_id: str, client_secret: str):
@@ -67,3 +70,55 @@ class XrayClient:
 
         data = response.json()
         return data["tests"][0]["key"]
+
+    def generate_xray_test_cases(acceptance_criteria: str) -> List[Dict]:
+        """
+        Convert acceptance criteria text into structured Xray test steps.
+        This is intentionally deterministic and simple.
+        """
+        tests = []
+
+        # Simple heuristic split (you can improve later)
+        lines = [l.strip("- ").strip() for l in acceptance_criteria.splitlines() if l.strip()]
+
+        test_summary = "Auto-generated test from acceptance criteria"
+        test_description = "Generated from Jira acceptance criteria"
+        precondition = "System is available"
+
+        for idx, line in enumerate(lines, start=1):
+            tests.append({
+                "Test Type": "Manual",
+                "Test Summary": test_summary,
+                "Test Description": test_description,
+                "Precondition": precondition,
+                "Step": f"Step {idx}: {line}",
+                "Data": "",
+                "Expected Result": f"{line} is successfully completed"
+            })
+
+        return tests
+
+
+    def write_xray_csv(test_cases: List[Dict], output_dir: str) -> str:
+        os.makedirs(output_dir, exist_ok=True)
+
+        filename = f"xray-tests-{datetime.now().strftime('%Y%m%d-%H%M%S')}.csv"
+        file_path = os.path.join(output_dir, filename)
+
+        fieldnames = [
+            "Test Type",
+            "Test Summary",
+            "Test Description",
+            "Precondition",
+            "Step",
+            "Data",
+            "Expected Result"
+        ]
+
+        with open(file_path, mode="w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in test_cases:
+                writer.writerow(row)
+
+        return file_path
