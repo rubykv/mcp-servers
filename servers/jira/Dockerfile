@@ -1,13 +1,11 @@
-FROM mcp-base
+FROM python:3.11-slim
 
 WORKDIR /app
 
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
-COPY servers/jira /app
-COPY shared /app/shared
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
 
 CMD ["python", "server.py"]

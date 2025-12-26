@@ -30,22 +30,5 @@ def create_xray_test(
         "test_key": test_key
     }
 
-@mcp.tool()
-def generate_xray_csv_from_acceptance_criteria(
-    acceptance_criteria: str,
-    output_dir: str = "./artifacts/xray"
-) -> dict:
-    """
-    Generate Xray test cases in CSV format from Jira acceptance criteria.
-    """
-    test_cases = generate_xray_test_cases(acceptance_criteria)
-    csv_path = write_xray_csv(test_cases, output_dir)
-
-    return {
-        "status": "success",
-        "test_count": len(test_cases),
-        "csv_path": csv_path
-    }
-
 if __name__ == "__main__":
     mcp.run()

@@ -13,11 +13,12 @@ Install mcp by running `pip install mcp`.
 1. Create a new directory in the `servers` directory.
 2. Create a new file `client.py` in the directory.
 3. Implement the required methods in the `client.py` file.
-4. Add the server to the `servers.py` file.
-5. Endorse the tools by annotating the methods with `@tool`.
+4. Add tools to the `servers.py` file.
+5. Endorse the tools by annotating the methods with `@mcp.tool()`.
 
-## Run the server
+## Run the server (Optional)
 1. Run the server by running `python server.py`.
+2. This step is for verification that the server is running correctly.
 
 ## Register the MCP server
 1. Register the MCP server by clicking on the "plug" icon on the right side of the screen on Windsurf.
@@ -27,7 +28,7 @@ Install mcp by running `pip install mcp`.
 
 3. This opens a config file.
 
-4. For each of the servers in the `servers.py` file, we would need to make an entry in the config file.
+4. Make entry for each mcp server, add environment variables if needed. For individual server configuration, read README.md in the specific server directory.
 
 5. Once added in config, these servers are now registered with Windsurf.
 
@@ -38,3 +39,4 @@ Install mcp by running `pip install mcp`.
 8. Use cascade to debug further if needed.
 
 9. Once server is enabled, you can use the tools in the cascade from any Windsurf window.
+
